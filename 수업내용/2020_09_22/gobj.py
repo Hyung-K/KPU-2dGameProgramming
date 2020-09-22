@@ -11,6 +11,19 @@ class Grass:
 	def update(self):
 		pass
 
+class Ball:
+	def __init__(self, x, y, dx, dy):
+		self.load_image = load_image(RES_DIR + '/ball21x21.png')
+		self.x, self.y = x, y
+		self.dx, self.dy = dx, dy
+	def draw(self):
+		self.image.draw(self.x, self.y)
+	def update(self):
+		self.x += self.dx
+		self.y == self.dy
+
+balls = []
+
 class Boy:
 	#constructor
 	# def __init__(self, pos, delta):
@@ -26,11 +39,14 @@ class Boy:
 	def draw(self):
 		sx = self.fidx * 100
 		sy = self.action * 100
-		self.image.clip_draw(sx, sy, 100, 100, self.x, self.y) # (왼쪽, 아래, 폭, 높이)
+		self.image.clip_draw(sx, sy, 100, 100, self.x, self.y)	 # (왼쪽, 아래, 폭, 높이)
 	def update(self):
 		self.x += self.dx
 		self.y += self.dy
 		self.fidx = (self.fidx + 1) % 8
+	def fire(self):
+		ball = Ball(self.x, self.y, self.dx, self.dy)
+		balls.append(ball)
 	def handle_event(self, e):
 		prev_dx = self.dx
 		if e.type == SDL_KEYDOWN:
@@ -42,6 +58,8 @@ class Boy:
 				self.dy -= 1
 			elif e.key == SDLK_UP:
 				self.dy += 1
+			elif e.key == SDLK_SPACE:
+				self.fire()
 		elif e.type == SDL_KEYUP:
 			if e.key == SDLK_LEFT:
 				self.dx += 1
