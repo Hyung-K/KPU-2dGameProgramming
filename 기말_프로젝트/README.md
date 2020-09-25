@@ -2,7 +2,7 @@
 ## 1. 게임의 소개   
 ### 제목 : Strikers 1945   
  - 1945오락게임(copy)   
- ![Github logo](/res/strikers_1945.png)   
+ ![Github logo](/res/Strikers_1945.png)   
 
 ## 2. GameState (Scene) 의 수 및 각각의 이름
 - Loading Scene   
