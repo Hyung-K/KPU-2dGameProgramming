@@ -10,14 +10,14 @@
  
 ### Game Flow
 - Loading Scene(로딩 후 클릭 시 메인화면 이동)   
- ![Github logo](./res/1945-1945_loading.png)    
+ ![Github logo](./res/1945_loading.png)    
 - Title Scene(Game Start 선택 시 Game Scene 이동, Ranking 선택 시 Ranking Scene 이동)       
- ![Github logo](./res/1945_title.jpg)   
+ ![Github logo](./res/1945_title.JPG)   
 - Character Select Scene   
- ![Github logo](./res/1945_charSelect.jpg)     
+ ![Github logo](./res/1945_charSelect.JPG)     
 - Game Scene    
- ![Github logo](./res/1945_gamePlay.jpg)    
- ![Github logo](./res/1945_gameClear.jpg)     
+ ![Github logo](./res/1945_gamePlay.JPG)    
+ ![Github logo](./res/1945_gameClear.JPG)     
  ![Github logo](./res/1945_gameOver.png)    
 - Ranking Scene    
  ![Github logo](./res/1945_rank.jpg)    
