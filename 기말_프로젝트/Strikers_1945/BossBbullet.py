@@ -14,7 +14,7 @@ class Boss_Bbullet:
     def __init__(self, x, y):
         self.x, self.y = x, y
         self.radius = 25
-        self.isdead = False
+        self.isDead = False
         self.frame = 0
         self.lifeTime = random.randint(100, 300) / 100
         self.deathTime = 0
@@ -30,7 +30,7 @@ class Boss_Bbullet:
     def Bullet_LifeTime(self):
         self.deathTime += gfw.delta_time
         if self.deathTime > self.lifeTime:
-            self.isdead = True
+            self.isDead = True
 
     def update(self):
         self.Bullet_LifeTime()
@@ -41,7 +41,7 @@ class Boss_Bbullet:
 
         if self.frame >= 15:
             self.frame = 0
-        if self.isdead is True:
+        if self.isDead is True:
             Bf1 = Effect.Effect(self.x, self.y, 80, 80, 100, 100, 10, 7, 0.5)
             gfw.world.add(gfw.layer.Effect, Bf1)
             BBB = Bbullet.Bbullet2(self.x, self.y, self.Number-1, 0, 100)
@@ -67,4 +67,3 @@ class Boss_Bbullet:
 
     def draw(self):
         self.image.clip_draw(450 * int(self.frame), 0, 450, 450, self.x, self.y, 50, 50)
-

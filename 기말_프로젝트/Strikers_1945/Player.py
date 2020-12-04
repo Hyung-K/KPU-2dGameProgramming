@@ -1,7 +1,8 @@
 from pico2d import *
-import gfw
 from gobj import *
+import gfw
 import win32api
+
 import Bullet 
 import hyperion
 
@@ -9,20 +10,19 @@ class Player():
     def __init__(self):
         self.x, self.y = 0, 90
         self.image = load_image('res/Player_T.png')
-        self.Frame = 3    # speed
+        self.frame = 3    # speed
         self.Time = 0
         self.Interval = 0
-        self.PlayerState = 0
-
+        self.playerState = 0
         self.Life = 5
         self.BombNo = 2     # 필살기
         self.Gage = 0
         self.Power = 0
-        self.LagerTime = 0
-        self.SoundDelta = 0
+        self.laserTime = 0
+        self.soundDelta = 0
+        self.shieldTime = 0
+        self.preLife = self.Life
         self.isShield = False
-        self.ShieldTime = 0
-
         self.SMode = False
 
     def Make_Hyperion(self):
@@ -35,23 +35,40 @@ class Player():
             Rh = hyperion.Hyperion(520, -100)
             gfw.world.add(gfw.layer.Hyperion, Rh)
 
-    def Make_Lager(self):
-        if gfw.world.count_at(gfw.layer.CLazer) > 0:
-            self.LagerTime += gfw.delta_time
+    def Make_Laser(self):
+        if gfw.world.count_at(gfw.layer.Laser) > 0:
+            self.laserTime += gfw.delta_time
         if win32api.GetAsyncKeyState(0x41) & 0x1001:
             if gfw.world.count_at(gfw.layer.CLazer) == 0 and self.Gage > 20:  # a
-                LayL = Bullet.Player_Lager(25)
-                gfw.world.add(gfw.layer.Lazer, LayL)
-                LayR = Bullet.Player_Lager(-25)
-                gfw.world.add(gfw.layer.Lazer, LayR)
+                LaL = Bullet.Player_Laser(25)
+                gfw.world.add(gfw.layer.Laser, LaL)
+                LaR = Bullet.Player_Lager(-25)
+                gfw.world.add(gfw.layer.Laser, LaR)
 
-            elif self.LagerTime > 3 and gfw.world.count_at(gfw.layer.CLazer) > 0:
-                self.LagerTime = 0
-                for Lager in gfw.world.objects_at(gfw.layer.CLazer):
-                    Lager.isDead = True
+            elif self.laserTime > 3 and gfw.world.count_at(gfw.layer.Laser) > 0:
+                self.laserTime = 0
+                for Laser in gfw.world.objects_at(gfw.layer.Laser):
+                    Laser.isDead = True
+
+    def Player_LifeSystem(self):
+        if win32api.GetAsyncKeyState(0x44) & 0x1001:
+            if self.SMode is True:
+                self.SMode = False
+            elif self.SMode is False:
+                self.SMode = True
+
+        if self.preLife != self.Life:
+            self.isShield = True
+        self.preLife = self.Life
+
+        if self.isShield is True:
+            self.shieldTime += gfw.delta_time
+            if self.shieldTime > 3:
+                self.shieldTime = 0
+                self.isShield = False
 
     def fire(self):
-        if win32api.GetAsyncKeyState(0x20) & 0x8000 and self.Interval >= 1:  # space
+        if win32api.GetAsyncKeyState(0x20) & 0x8000 and self.Interval >= 1:
             self.Interval = 0
             bullet = Bullet.Bullet(self.x, self.y + 20)
             gfw.world.add(gfw.layer.Bullet, bullet)
@@ -65,22 +82,24 @@ class Player():
         if(win32api.GetAsyncKeyState(0x25) & 0x8000 or win32api.GetAsyncKeyState(0x26) & 0x8000
         or win32api.GetAsyncKeyState(0x27) & 0x8000 or win32api.GetAsyncKeyState(0x28) & 0x8000):
             if win32api.GetAsyncKeyState(0x25) & 0x8000:
-                self.x-= 400 * gfw.delta_time
+                self.x -= 400 * gfw.delta_time
             if win32api.GetAsyncKeyState(0x27) & 0x8000:
                 self.x += 400 * gfw.delta_time
-            if win32api.GetAsyncKeyState(0x26) & 0x8000: # UP
-                self.y +=400 * gfw.delta_time
-            if win32api.GetAsyncKeyState(0x28) & 0x8000: #DOWN
+            if win32api.GetAsyncKeyState(0x26) & 0x8000:    # UP
+                self.y += 400 * gfw.delta_time
+            if win32api.GetAsyncKeyState(0x28) & 0x8000:    # DOWN
                 self.y -= 400 * gfw.delta_time
         else:
             playerState = 0
-        self.time=(self.time + 1) % 50
-        if win32api.GetAsyncKeyState(0x25) & 0x8000 and self.time >= 48:
+        self.Time = (self.Time + 1) % 50
+        if win32api.GetAsyncKeyState(0x25) & 0x8000 and self.Time >= 48:
             self.frame -= 1
-        if win32api.GetAsyncKeyState(0x27) & 0x8000 and self.time >= 48:
+        if win32api.GetAsyncKeyState(0x27) & 0x8000 and self.Time >= 48:
             self.frame += 1        
-        if self.frame <= 0: self.frame = 0
-        if self.frame>=6: self.frame = 6
+        if self.frame <= 0:
+            self.frame = 0
+        if self.frame >= 6:
+            self.frame = 6
     
     def draw(self):
-        self.image.clip_draw(3 * 33, 0, 33, 33, self.x, self.y,80, 80)
+        self.image.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)

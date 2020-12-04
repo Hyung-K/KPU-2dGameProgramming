@@ -1,13 +1,17 @@
 from pico2d import *
-
-import random
+from gobj import *
+from Player import *
 import gfw
-import gobj
-from Player import Player
+import random
+
 import Monster
 import Monster2
 import UI
 import Effect
+import Ship
+import item
+import Posin
+
 
 bisPlaneMake = True
 RedPlaneTerm = 0
@@ -22,9 +26,9 @@ Time = 0
 bisMidBossDead = False
 
 def enter():
-	gfw.world.init(['Player', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Laser', 'Hyperion'])
+	gfw.world.init(['Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Laser', 'Hyperion'])
 	global player, score
-	player = Player.Player()
+	player = Player()
 	gfw.world.add(gfw.layer.Player, player)
 
 	score = UI.Score()
@@ -34,12 +38,43 @@ def enter():
 	gfw.world.add(gfw.layer.UI, UI.Player_Bomb())
 	gfw.world.add(gfw.layer.UI, life)
 
+def Monster_Bullet_Collision():
+	global player, score
+	for Monster in gfw.world.objects_at(gfw.layer.Monster):
+		for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
+			for PlayerBullet in gfw.world.objects_at(gfw.layer.Bullet):
+				if Monster.x + Monster.RadianX > PlayerBullet.x > Monster.x - Monster.RadianX and Monster.y + Monster.PivotY > PlayerBullet.y > Monster.y - Monster.PivotY:
+					PlayerBullet.isDead = True
+					Monster.hp -= 0.5 + player.Power * 0.75
+					player.Gage += 0.5
+					score.Add_Score(random.randint(3, 7))
+					PlayerBullet.isDead = True
+					Pp = Effect.Effect(PlayerBullet.x + random.randint(-15, 15),
+									   PlayerBullet.y + random.randint(-15, 15), 30, 27, 30, 27, 12, 0)
+					gfw.world.add(gfw.layer.Effect, Pp)
+
+def Player_Bullet_Collision():
+	global player
+	for Monster in gfw.world.objects_at(gfw.layer.Monster):
+		for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
+			dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
+			if dist <= MonsterBullet.radius and player.isShield is False:
+				MonsterBullet.isDead = True
+				if player.SMode is False:
+					player.isShield = True
+					player.Life -= 1
+
+					Cp = Effect.Effect(player.x + random.randint(-20, 20),
+									   player.y + random.randint(-20, 20),
+									   128, 128, 250, 250, 64, 5, 0.3)
+					gfw.world.add(gfw.layer.Effect, Cp)
+
 def update():
 	gfw.world.update()
 	Player_Bullet_Collision()
 	Monster_Bullet_Collision()
 
-	global MakeTerm, RedPlaneTerm, bisPlaneMake
+	global bisPlaneMake, RedPlaneTerm, MakeTerm, smlBoss_MakeTerm, smlBossCnt, MidBossCnt, FinalBossCnt, bisMidBossDead
 	global Time
 
 	MakeTerm += gfw.delta_time * 0.5
@@ -60,9 +95,9 @@ def update():
 		Redplane = Monster2.RedPlane(random.randint(0, 300), 960)
 		gfw.world.add(gfw.layer.Monster, Redplane)
 
-	if SmlBoss_MakeTerm > 10 and SmlBossCnt > 0:
-		SmlBoss_MakeTerm = 0
-		SmlBossCnt -= 1
+	if smlBoss_MakeTerm > 10 and smlBossCnt > 0:
+		smlBoss_MakeTerm = 0
+		smlBossCnt -= 1
 		S1 = Monster2.MidPlane(1300, 1300, -1)
 		gfw.world.add(gfw.layer.Monster, S1)
 		S2 = Monster2.MidPlane(-580, 1300, 1)
@@ -70,36 +105,14 @@ def update():
 
 	if Time > 20 and MidBossCnt > 0:
 		MidBossCnt -= 1
-		BAP = Monster2
+		BAP = Monster2.BigPlane(360, 1160)
+		gfw.world.add(gfw.layer.Monster, BAP)
 
-def Monster_Bullet_Collision():
-	global player, score
-	for Monster in gfw.world.objects_at(gfw.layer.Monster):
-		for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
-			for PlayerBullet in gfw.world.objects_at(gfw.layer.Bullet):
-				if Monster.x + Monster.RadianX > PlayerBullet.x > Monster.x - Monster.RadianX and Monster.y + Monster.PivotY > PlayerBullet.y > Monster.y - Monster.PivotY:
-					PlayerBullet.isDead = True
-					Monster.hp -= 0.5 + player.Power * 0.75
-					player.gage += 0.5
-					score.Add_Score(random.randint(3, 7))
-					PlayerBullet.isDead = True
-					Pp = Effect.Effect(PlayerBullet.x + random.randint(-15, 15),
-									   PlayerBullet.y + random.randint(-15, 15), 30, 27, 30, 27, 12, 0)
-					gfw.world.add(gfw.layer.Effect, Pp)
-
-def Player_Bullet_Collision():
-	global player, score
-	for Monster in gfw.world.objects_at(gfw.layer.Monster):
-		for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
-			for PlayerBullet in gfw.world.objects_at(gfw.layer.Bullet):
-				dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
-				if dist <= MonsterBullet.radius and player.isShield is False:
-					MonsterBullet.isdead = True
-					if player.SMode is False:
-						player.Life -= 1
-
-					Cp = Effect.Effect(player.x + random.randint(-20, 20), player.y + random.randint(-20, 20), 128, 128, 250, 250, 64, 5, 0.3)
-					gfw.world.add(gfw.layer.Effect, Cp)
+	if Time > 20 and bisMidBossDead is True and FinalBossCnt > 0:
+		FinalBossCnt -= 1
+		boss = Ship.BossShip(1400, 860)
+		gfw.world.add(gfw.layer.Boss, boss)
+		bisPlaneMake = False
 
 def draw():
 	gfw.world.draw()

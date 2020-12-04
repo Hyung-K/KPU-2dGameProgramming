@@ -8,7 +8,7 @@ class Hyperion_Bullet():
 	def __init__(self, x, y, dir):
 		self.x, self.y = x,y
 		self. dir = dir
-		self.isdead = False
+		self.isDead = False
 
 		if Hyperion_Bullet.image == None:
 			Hyperion_Bullet.image = load_image('res/Special_Bullet.png')
@@ -25,11 +25,11 @@ class Hyperion_Bullet():
 
 		if self.x < 0 or self.x > 720 or self.y > 960:
 			self.remove()
-		if self.isdead == True:
+		if self.isDead == True:
 			self.remove()
 
 	def draw(self):
-		pass
+		self.image.clip_draw(self.dir * 42, 0, 40, 48, self.x, self.y, 50, 50)
 
 	def remove(self):
-		pass
+		gfw.world.remove(self)

@@ -5,7 +5,7 @@ import random
 import MonsterBullet
 import UI
 import Effect
-import Item
+import item
 import main_state
 
 class BluePlane:
@@ -79,7 +79,7 @@ class RedPlane:
                                  128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, Eft4)
 
-            Ritem = Item.PItem(self.x, self.y)
+            Ritem = item.PItem(self.x, self.y)
             gfw.world.add(gfw.layer.Item, Ritem)
             self.remove()
 
@@ -227,7 +227,7 @@ class BigPlane:
                                 252, 200, 600, 500, 14, 6, 0.5)
             gfw.world.add(gfw.layer.Effect, Bf1)
 
-            BombItem = Item.Item_Bomb(self.x, self.y)
+            BombItem = item.Item_Bomb(self.x, self.y)
             gfw.world.add(gfw.layer.Effect, BombItem)
             main_state.bisMiddleBossDead = True
             self.remove()

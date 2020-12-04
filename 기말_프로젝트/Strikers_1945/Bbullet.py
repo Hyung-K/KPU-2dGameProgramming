@@ -8,26 +8,26 @@ import Effect
 class Bbullet2:
 	image = None
 
-	def __init__(self):
-		self.Number = number
+	def __init__(self,x, y, Number, deltaX, deltaY):
+		self.Number = Number
 		self.x, self.y = x, y
 		self.deltaX, self.deltaY = deltaX, deltaY
 		self.radius = 10
-		self.isdead = False
+		self.isDead = False
 		self.frame = 0
-		self.lifetime = random.randint(100, 300) / 100
-		self.deathtime = 0
+		self.lifeTime = random.randint(100, 300) / 100
+		self.deathTime = 0
 		self.index = 0
 
 		if Bbullet2.image is None:
 			Bbullet2.image = load_image('res/Blue_Bullet2.png')
 
-	def Bullet_lifetime(self):
-		if self.isdead is True or self.y <= 0 or self.x < 0 or self.x > 740:
+	def Bullet_lifeTime(self):
+		if self.isDead is True or self.y <= 0 or self.x < 0 or self.x > 740:
 			self.remove()
 
 	def update(self):
-		self.Bullet_lifetime()
+		self.Bullet_lifeTime()
 		self.x += gfw.delta_time * self.deltaX * 2
 		self.y += gfw.delta_time * self.deltaY * 2
 
@@ -35,7 +35,7 @@ class Bbullet2:
 		if self.frame >= 16:
 			self.frame = 0
 
-		if self.isdead is True or self.y <= 0 or self.x < -10 or self.x > 740:
+		if self.isDead is True or self.y <= 0 or self.x < -10 or self.x > 740:
 			if self.Number > 0:
 				bEf = Effect.Effect(self.x, self.y, 80, 80, 100, 100, 10, 7, 0.5)
 				gfw.world.add(gfw.layer.Effect, bEf)
