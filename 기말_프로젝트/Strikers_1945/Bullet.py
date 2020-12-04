@@ -1,18 +1,18 @@
 from pico2d import*
 import gfw
 from gobj import *
+import Player
 
 name = 'Bullet'
 
 class Bullet(): 
 	image = [None, None, None, None]
 
-	def __init__(self):
-		pass
 	def __init__(self, x, y, speed = 720):
 		self.x, self.y = x, y
 		self.dy = speed
 
+		self.isdead = False
 		if self.image[0] == None:
 			self.image[0] = load_image('res/Bullet_Eg_a.png')
 		if self.image[1] == None:
@@ -24,12 +24,50 @@ class Bullet():
 
 	def update(self):
 		self.y += self.dy * gfw.delta_time
-
-		if self.y > get_canvas_height() + 20:
+		if self.isdead == True or self.y > get_canvas_height() + 20:
 			self.remove()
 
 	def draw(self):
-		self.image[0].draw(self.x - 7, self.y + 10, 120, 120)
+		for player in gfw.world.objects_at(gfw.layer.Player):
+			self.image[player.power].draw(self.x - 7, self.y + 10, 120, 120)
+
+	def remove(self):
+		gfw.world.remove(self)
+
+class Player_Lager():
+	image = None
+
+	def __init__(self, x):
+		self.deltaX = x
+
+		self.isdead = False
+		self.frame = 0
+		self.lifeTime = 0
+		for player in gfw.world.objects_at(gfw.layer.Player):
+			self.x, self.y = player.x + self.deltaX, player.y
+		if Player_Lager.image == None:
+			Player_Lager.image = load_image('res/fire_lazer.png')
+
+	def update(self):
+		self.lifeTime += 1
+		for player in gfw.world.objects_at(gfw.layer.Player):
+			self.x = player.x + self.deltaX
+			self.y = player.y
+
+		for Monster in gfw.world.objects_at(gfw.layer.Monster):
+			if Monster.x - Monster.radianX < self.x < Monster.x + Monster.radianX and self.y < Monster.y:
+				Monster.hp -= gfw.delta_time * 30
+			self.lifeTime += 0.1
+			self.frame = (self.frame + 1) % 80
+			for player in gfw.world.objects_at(gfw.layer.Player):
+				player.gage -= 5 * gfw.delta_time
+
+			if self.isdead is True or player.gage <= 0:
+				for player in gfw.world.objects_at(gfw.layer.Player):
+					player.gage = 0
+					self.remove()
+	def draw(self):
+		self.image.clip_draw((self.frame // 10) * 60, 0, 80, 100, self.x, self.y + 480, 10, 960)
 
 	def remove(self):
 		gfw.world.remove(self)
