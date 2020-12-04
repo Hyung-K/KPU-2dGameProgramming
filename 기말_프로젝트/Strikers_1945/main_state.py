@@ -3,6 +3,7 @@ from bg import VertScrollBackground
 import gfw
 import random
 
+import title_state
 import Player
 import Monster
 import Monster2
