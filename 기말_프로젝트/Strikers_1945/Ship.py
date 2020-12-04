@@ -1,10 +1,8 @@
 from pico2d import *
-
 import gfw
 import random
+
 import Effect
-import Bullet
-import MonsterBullet
 import Posin
 import UI
 
@@ -16,91 +14,92 @@ class BossShip:
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0
+        self.isDead = False
         self.deathCnt = 0
         self.effectTerm = 0
         self.deathSizeX = 0
         self.deathSizeY = 0
-        self.moveSpeed = 100
-
-        self.isDead = False
         self.bisOpen = False
-        self.lInit = False
+        self.LInit = False
+        self.MoveSpeed = 100
 
         if BossShip.image1 == None:
             BossShip.image1 = load_image('res/Ship.png')
         if BossShip.image2 == None:
             BossShip.image2 = load_image('res/Ship2.png')
-        self.bigPosin1 = Posin.bigPosin(self.x-360, self.y)
-        gfw.world.add(gfw.layer.Monster, self.bigPosin1)
-        self.bigPosin2 = Posin.bigPosin(self.x-248, self.y)
-        gfw.world.add(gfw.layer.Monster, self.bigPosin2)
-        self.bigPosin3 = Posin.bigPosin(self.x + 336, self.y)
-        gfw.world.add(gfw.layer.Monster, self.bigPosin3)
-        self.bigPosinLst = [self.bigPosin1, self.bigPosin2, self.bigPosin3]
 
-        self.midPosin1 = Posin.midPosin(self.x - 72.5, self.y-20)
-        gfw.world.add(gfw.layer.Monster, self.midPosin1)
-        self.midPosin2 = Posin.midPosin(self.x - 72.5, self.y + 54)
-        gfw.world.add(gfw.layer.Monster, self.midPosin2)
-        self.midPosin3 = Posin.midPosin(self.x + 167.5, self.y - 20)
-        gfw.world.add(gfw.layer.Monster, self.midPosin3)
-        self.midPosin4 = Posin.midPosin(self.x + 167.5, self.y + 54)
-        gfw.world.add(gfw.layer.Monster, self.midPosin4)
-        self.midPosinLst = [self.midPosin1, self.midPosin2, self.midPosin3, self.midPosin4]
+        self.SmlPosin1 = Posin.SmlPosin(self.x + 20, self.y + 84)
+        gfw.world.add(gfw.layer.Monster, self.SmlPosin1)
+        self.SmlPosin2 = Posin.SmlPosin(self.x + 20, self.y - 62)
+        gfw.world.add(gfw.layer.Monster, self.SmlPosin2)
+        self.SmlPosin3 = Posin.SmlPosin(self.x + 75.5, self.y + 84)
+        gfw.world.add(gfw.layer.Monster, self.SmlPosin3)
+        self.SmlPosin4 = Posin.SmlPosin(self.x + 75.5, self.y - 62)
+        gfw.world.add(gfw.layer.Monster, self.SmlPosin4)
+        self.SmlPosin5 = Posin.SmlPosin(self.x - 200, self.y + 74)
+        gfw.world.add(gfw.layer.Monster, self.SmlPosin5)
+        self.SmlPosin6 = Posin.SmlPosin(self.x - 200, self.y - 52)
+        gfw.world.add(gfw.layer.Monster, self.SmlPosin6)
+        self.SmlPosinLst = [self.SmlPosin1, self.SmlPosin2, self.SmlPosin3, self.SmlPosin4, self.SmlPosin5, self.SmlPosin6]
 
-        self.smlPosin1 = Posin.smlPosin(self.x + 20, self.y + 84)
-        gfw.world.add(gfw.layer.Monster, self.smlPosin1)
-        self.smlPosin2 = Posin.smlPosin(self.x + 20, self.y - 62)
-        gfw.world.add(gfw.layer.Monster, self.smlPosin2)
-        self.smlPosin3 = Posin.smlPosin(self.x + 75.5, self.y + 84)
-        gfw.world.add(gfw.layer.Monster, self.smlPosin3)
-        self.smlPosin4 = Posin.smlPosin(self.x + 75.5, self.y - 62)
-        gfw.world.add(gfw.layer.Monster, self.smlPosin4)
-        self.smlPosin5 = Posin.smlPosin(self.x - 200, self.y + 74)
-        gfw.world.add(gfw.layer.Monster, self.smlPosin5)
-        self.smlPosin6 = Posin.smlPosin(self.x - 200, self.y - 52)
-        gfw.world.add(gfw.layer.Monster, self.smlPosin6)
-        self.smlPosinLst = [self.smlPosin1, self.smlPosin2, self.smlPosin3, self.smlPosin4, self.smlPosin5, self.smlPosin6]
+        self.MidPosin1 = Posin.MidPosin(self.x - 72.5, self.y - 20)
+        gfw.world.add(gfw.layer.Monster, self.MidPosin1)
+        self.MidPosin2 = Posin.MidPosin(self.x - 72.5, self.y + 54)
+        gfw.world.add(gfw.layer.Monster, self.MidPosin2)
+        self.MidPosin3 = Posin.MidPosin(self.x + 167.5, self.y - 20)
+        gfw.world.add(gfw.layer.Monster, self.MidPosin3)
+        self.MidPosin4 = Posin.MidPosin(self.x + 167.5, self.y + 54)
+        gfw.world.add(gfw.layer.Monster, self.MidPosin4)
+        self.MidPosinLst = [self.MidPosin1, self.MidPosin2, self.MidPosin3, self.MidPosin4]
 
-    def initMove(self):
-        if self.x > 390:
-            for Posin in self.bigPosinLst:
-                Posin.x -= gfw.delta_time * self.moveSpeed
-            for Posin in self.midPosinLst:
-                Posin.x -= gfw.delta_time * self.moveSpeed
-            for Posin in self.smlPosinLst:
-                Posin.x -= gfw.delta_time * self.moveSpeed
-            self.x -= gfw.delta_time * self.moveSpeed
-
-        else:
-            if self.bisOpen is False:
-                self.bisOpen = True
-                for bigPosin in self.bigPosinLst:
-                    bigPosin.bisOpen = True
+        self.BigPosin1 = Posin.BigPosin(self.x-360, self.y)
+        gfw.world.add(gfw.layer.Monster,self.BigPosin1)
+        self.BigPosin2 = Posin.BigPosin(self.x-248, self.y)
+        gfw.world.add(gfw.layer.Monster,self.BigPosin2)
+        self.BigPosin3 = Posin.BigPosin(self.x + 336, self.y)
+        gfw.world.add(gfw.layer.Monster,self.BigPosin3)
+        self.BigPosinLst = [self.BigPosin1, self.BigPosin2, self.BigPosin3]
 
     def bossDead(self):
         if self.deathCnt >= 13:
-            self.deathSizeX += gfw.delta_time * (137.5/2)
+            self.deathSizeX += gfw.delta_time * (137.5 / 2)
             self.deathSizeY += (gfw.delta_time * 10)
             self.effectTerm += gfw.delta_time
+
             if self.effectTerm > 0.1 and self.deathSizeX < 600:
                 self.effectTerm = 0
-                DEf = Effect.Effect(self.x + random.randint(int(-700 + self.deathSizeX), int(700-self.deathSizeX)),
-                                    self.y + random.randint(int(-100 + self.deathSizeY), int(100-self.deathSizeY)),
+                DEf = Effect.Effect(self.x + random.randint(int(-700 + self.deathSizeX), int(700 - self.deathSizeX)),
+                                    self.y + random.randint(int(-100 + self.deathSizeY), int(100 - self.deathSizeY)),
                                     149, 149, 250, 250, 32, 8, 0.3)
                 gfw.world.add(gfw.layer.Effect, DEf)
 
-        if self.lInit is False and self.deathSizeX > 600:
-            self.lInit = True
+        if self.LInit is False and self.deathSizeX > 600:
+            self.LInit = True
             UI.FinalScore()
+
+    def initMove(self):
+        if self.x > 390:
+            for Posin in self.SmlPosinLst:
+                Posin.x -= gfw.delta_time * self.MoveSpeed
+            for Posin in self.MidPosinLst:
+                Posin.x -= gfw.delta_time * self.MoveSpeed
+            for Posin in self.BigPosinLst:
+                Posin.x -= gfw.delta_time * self.MoveSpeed
+            self.x -= gfw.delta_time * self.MoveSpeed
+          
+        else:
+            if self.bisOpen is False:
+                self.bisOpen = True
+                for BigPosin in self.BigPosinLst:
+                   BigPosin.bisOpen = True
+
 
     def update(self):
         self.bossDead()
         self.initMove()
         if self.isDead:
             BcEf = Effect.Effect(self.x + random.randint(-20, 20),
-                                 self.y + random.randint(-20, 20),
-                                 128, 128, 200, 200, 9, 1)
+                                 self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, BcEf)
             self.remove()
 
