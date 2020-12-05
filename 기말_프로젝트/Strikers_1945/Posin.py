@@ -5,7 +5,6 @@ import math
 
 import MonsterBullet
 import BossBlueBullet
-import UI
 import Effect
 import SoundM
 
@@ -45,7 +44,6 @@ class BigPosin:
         self.frame_Manegement()
         self.Make_Bullet()
         if self.isDead or self.hp < 0:
-            UI.Score().Add_Score(random.randint(1500, 2000))
             PEf = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200,
                                 9, 1)
             gfw.world.add(gfw.layer.Effect, PEf)
@@ -117,7 +115,6 @@ class MidPosin:
         self.makeBullet()
         self.dir_Calculate()
         if self.isDead or self.hp < 0:
-            UI.Score().Add_Score(random.randint(1500, 2000))
             PEf2 = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200,
                                  9, 1)
             gfw.world.add(gfw.layer.Effect, PEf2)
@@ -174,7 +171,6 @@ class SmlPosin:
         self.dir_Calculate()
 
         if self.isDead or self.hp < 0:
-            UI.Score().Add_Score(random.randint(500, 1000))
             ScE = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20),
                                 128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.MonsterBullet, ScE)

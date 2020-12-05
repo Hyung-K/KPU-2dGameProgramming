@@ -5,7 +5,6 @@ import random
 import Item
 import Effect
 import MonsterBullet
-import UI
 import SoundM
 
 checkDead = False
@@ -31,7 +30,6 @@ class BluePlane:
 
     def update(self):
         if self.isDead or self.hp <= 0:
-            UI.Score().Add_Score(random.randint(70, 100))
             Eft3 = Effect.Effect(self.x + random.randint(-20, 20),
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
@@ -79,7 +77,6 @@ class RedPlane:
 
     def update(self):
         if self.isDead or self.hp <= 0:
-            UI.Score().Add_Score(random.randint(200, 300))
             Eft4 = Effect.Effect(self.x + random.randint(-20, 20),
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
@@ -132,7 +129,6 @@ class WhitePlane:
 
     def update(self):
         if self.isDead or self.hp <= 0:
-            UI.Score().Add_Score(random.randint(200, 300))
             Eft5 = Effect.Effect(self.x + random.randint(-20, 20),
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
@@ -174,7 +170,6 @@ class BigPlane:
     def update(self):
         global checkDead
         if self.isDead or self.hp <= 0:
-            UI.Score().Add_Score(random.randint(5000, 6000))
             Bf1 = Effect.Effect(self.x + random.randint(-20, 20),
                                 self.y + random.randint(-20, 20),
                                 252, 200, 600, 500, 14, 6, 0.5)
@@ -244,7 +239,6 @@ class MidPlane:
     def update(self):
         self.initMove()
         if self.isDead or self.hp <= 0:
-            UI.Score().Add_Score(random.randint(1000, 1500))
             Mf = Effect.Effect(self.x + random.randint(-20, 20),
                                self.y + random.randint(-20, 20),
                                128, 128, 200, 200, 9, 1)

@@ -4,7 +4,6 @@ import random
 
 import MonsterBullet
 import Effect
-import UI
 import SoundM
 
 class LeftPlane1():
@@ -24,7 +23,6 @@ class LeftPlane1():
 
     def update(self):
         if self.isDead or self.hp <= 0:
-             UI.Score().Add_Score(random.randint(100, 150))
              Ef1 = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200, 9, 1)
              gfw.world.add(gfw.layer.Effect, Ef1)
              self.Sound.playSound(1, 30)
@@ -52,7 +50,7 @@ class RightPlane1():
     image = None
 
     def __init__(self, x, y):
-        self.hp = 50
+        self.hp = 20
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.frame = 0
@@ -66,7 +64,6 @@ class RightPlane1():
 
     def update(self):
         if self.isDead or self.hp <= 0:
-             UI.Score().Add_Score(random.randint(100, 150))
              Ef2 = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200, 9, 1)
              gfw.world.add(gfw.layer.Effect, Ef2)
              self.Sound.playSound(1, 40)
@@ -90,5 +87,3 @@ class RightPlane1():
 
     def remove(self):
         gfw.world.remove(self)
-
-

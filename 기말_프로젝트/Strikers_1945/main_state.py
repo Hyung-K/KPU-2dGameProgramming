@@ -10,21 +10,35 @@ import UI
 import Effect
 import Ship
 import SoundM
+import Highscore
+import game_over_state
 
-Sound = None
+canvas_width = 720
+canvas_height = 960
+STATE_IN_GAME, STATE_GAME_OVER = range(2)
+
+def end_game():
+    global state, Sound, score
+    state = STATE_GAME_OVER
+    Sound.bgm1.stop()
+    Sound.bgm2.repeat_play()
+    Highscore.add(score)
+    gfw.change(game_over_state)
 
 def enter():
     gfw.world.init(
         ['bg', 'Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Laser', 'Hyperion'])
-    global player, score, Sound
+    global player, score, Sound, state
+    global font
+    state = STATE_IN_GAME
     player = Player.Player()
+    font = gfw.font.load('res/Press_Start_2P.ttf', 20)
     Sound = SoundM
     Sound.init()
     Sound.bgm1.repeat_play()
     gfw.world.add(gfw.layer.Player, player)
-    score = UI.Score()
     life = UI.Life()
-    gfw.world.add(gfw.layer.UI, score)
+    score = 0
     gfw.world.add(gfw.layer.UI, UI.Laser_Energy(160, 30))
     gfw.world.add(gfw.layer.UI, UI.Player_Bomb())
     gfw.world.add(gfw.layer.UI, life)
@@ -32,6 +46,7 @@ def enter():
     bg = VertScrollBackground('Map_2.png')
     bg.speed = 50
     gfw.world.add(gfw.layer.bg, bg)
+    Highscore.load()
 
     global bisPlaneMake, MakeTerm, RedPlaneTerm, SmlBoss_MakeTerm, SmlBossCnt, MidBossCnt, FnlBossCnt, Time, bisMidBossDead
     bisPlaneMake = True
@@ -44,7 +59,6 @@ def enter():
     Time = 0
     bisMidBossDead = False
 
-
 def MonsterBullet_Collision():
     global player, score, Sound
     for Monster in gfw.world.objects_at(gfw.layer.Monster):
@@ -53,8 +67,8 @@ def MonsterBullet_Collision():
                 if Monster.x + Monster.radianX > PlayerBullet.x > Monster.x - Monster.radianX and Monster.y + Monster.pivotY > PlayerBullet.y > Monster.y - Monster.pivotY:
                     PlayerBullet.isDead = True
                     Monster.hp -= 0.5 + player.power * 0.75
-                    player.Gage += 0.5
-                    score.Add_Score(random.randint(3, 7))
+                    player.Gage += 0.1
+                    score += 1
                     PlayerBullet.isDead = True
                     Pp = Effect.Effect(PlayerBullet.x + random.randint(-15, 15),
                                        PlayerBullet.y + random.randint(-15, 15),
@@ -63,7 +77,7 @@ def MonsterBullet_Collision():
 
 
 def PlayerBullet_Collision():
-    global player, Sound
+    global player, Sound, state
     for Monster in gfw.world.objects_at(gfw.layer.Monster):
         for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
             dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
@@ -72,17 +86,18 @@ def PlayerBullet_Collision():
                 Sound.playSound(14, 40)
                 if player.SMode is False:
                     player.isShield = True
-                    player.life -= 1
 
                     Cp = Effect.Effect(player.x + random.randint(-20, 20),
                                        player.y + random.randint(-20, 20),
                                        128, 128, 250, 250, 64, 5, 0.3)
                     gfw.world.add(gfw.layer.Effect, Cp)
-
+                    if player.life <= 0:
+                        state = STATE_GAME_OVER
+                        return True
 
 def MTime():
     global MakeTerm, RedPlaneTerm, bisPlaneMake, SmlBoss_MakeTerm, SmlBossCnt, MidBossCnt, FnlBossCnt, bisMidBossDead
-    global Time
+    global Time, boss, score, Sound
 
     MakeTerm += gfw.delta_time * 0.7
     RedPlaneTerm += gfw.delta_time * 0.3
@@ -119,22 +134,34 @@ def MTime():
         gfw.world.add(gfw.layer.Monster, BAP)
 
     if Time > 70 and Monster2.checkDead == True and FnlBossCnt > 0:
+        Sound.bgm1.stop()
+        Sound.bgm3.repeat_play()
+        score += 2000
         FnlBossCnt -= 1
         boss = Ship.BossShip(1400, 860)
         gfw.world.add(gfw.layer.Boss, boss)
         bisPlaneMake = False
 
+    if Ship.checkDead:
+        score += 5000
+        Sound.bgm4.stop()
+        return True
 
 def update():
+    if state != STATE_IN_GAME:
+        return
     MonsterBullet_Collision()
     PlayerBullet_Collision()
     gfw.world.update()
-    MTime()
-
+    ends = PlayerBullet_Collision()
+    clear = MTime()
+    if ends or clear:
+        end_game()
 
 def draw():
     gfw.world.draw()
-
+    score_pos = 30, get_canvas_height() - 30
+    font.draw(*score_pos, 'Score: %d' % score, (255, 255, 255))
 
 def handle_event(e):
     global player
@@ -145,10 +172,9 @@ def handle_event(e):
         if e.key == SDLK_ESCAPE:
             gfw.pop()
 
-
 def exit():
-    pass
-
+    global Sound
+    Sound.Delete_AllLst()
 
 if __name__ == '__main__':
     gfw.run_main()

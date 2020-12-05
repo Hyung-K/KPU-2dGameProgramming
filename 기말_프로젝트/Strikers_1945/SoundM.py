@@ -1,12 +1,16 @@
 from pico2d import *
 
 def init():
-    global soundLst, bgm1, bgm2
+    global soundLst, bgm1, bgm2, bgm3, bgm4
 
     bgm1 = load_music('Sound/main.mp3')
-    bgm1.set_volume(38)
+    bgm1.set_volume(40)
     bgm2 = load_music('Sound/GameOver.mp3')
-    bgm2.set_volume(38)
+    bgm2.set_volume(40)
+    bgm3 = load_music('Sound/boss.mp3')
+    bgm3.set_volume(40)
+    bgm4 = load_music('Sound/missionComplete!.mp3')
+    bgm4.set_volume(40)
 
     explode1 = load_wav('Sound/Explode_Bomb.wav')
     explode2 = load_wav('Sound/Explode_Guide.wav')
@@ -52,6 +56,11 @@ def playSound2(number, volume):
     soundLst[number].set_volume(volume)
     soundLst[number].play(1)
 
-def gameOverSound(self):
-    self.bgm1.stop()
-    self.bgm2.repeat_play()
+def Delete_AllLst():
+    global soundLst, bgm1, bgm2, bgm3, bgm4
+    del bgm1
+    del bgm2
+    del bgm3
+    del bgm4
+    for obj in soundLst:
+        del(obj)

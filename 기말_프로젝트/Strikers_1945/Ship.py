@@ -7,9 +7,12 @@ import Posin
 import UI
 import SoundM
 
+checkDead = False
+
 class BossShip:
     image1 = None
     image2 = None
+    image3 = None
 
     def __init__(self, x, y):
         self.x, self.y = x, y
@@ -29,6 +32,8 @@ class BossShip:
             BossShip.image1 = load_image('res/Ship.png')
         if BossShip.image2 == None:
             BossShip.image2 = load_image('res/Ship2.png')
+        if BossShip.image3 == None:
+            BossShip.image3 = load_image('res/gameclear.png')
 
         self.SmlPosin1 = Posin.SmlPosin(self.x + 20, self.y + 84)
         gfw.world.add(gfw.layer.Monster, self.SmlPosin1)
@@ -63,6 +68,7 @@ class BossShip:
         self.BigPosinLst = [self.BigPosin1, self.BigPosin2, self.BigPosin3]
 
     def bossDead(self):
+        global checkDead
         if self.deathCnt >= 13:
             self.deathSizeX += gfw.delta_time * (137.5 / 2)
             self.deathSizeY += (gfw.delta_time * 10)
@@ -78,7 +84,7 @@ class BossShip:
 
         if self.LInit is False and self.deathSizeX > 600:
             self.LInit = True
-            UI.FinalScore()
+            checkDead = True
 
     def initMove(self):
         if self.x > 390:
@@ -98,6 +104,7 @@ class BossShip:
 
 
     def update(self):
+        global checkDead
         self.bossDead()
         self.initMove()
         if self.isDead:
@@ -111,6 +118,7 @@ class BossShip:
             self.image1.draw(self.x, self.y, 1375, 200)
         else:
             self.image2.draw(self.x, self.y, 1375 - self.deathSizeX, 200 - self.deathSizeY)
+            self.image3.draw(360, 480, 300, 300)
 
     def remove(self):
         gfw.world.remove(self)

@@ -5,8 +5,11 @@ import main_state
 Frame = 0
 
 def enter():
-    global image
+    global image, bgm
     image = load_image('res/character.png')
+    bgm = load_music('Sound/gameStart.mp3')
+    bgm.set_volume(50)
+    bgm.repeat_play()
 
 def update():
     global Frame
@@ -22,13 +25,15 @@ def draw():
     update_canvas()
 
 def handle_event(e):
-    global Frame
+    global Frame, bgm
     if e.type == SDL_QUIT:
         gfw.quit()
     else:
         if(e.type, e.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
+            bgm.stop()
             gfw.quit()
         elif(e.type, e.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            bgm.stop()
             gfw.push(main_state)
         elif(e.type, e.key) == (SDL_KEYDOWN, SDLK_RIGHT):
             Frame += 1
@@ -36,8 +41,8 @@ def handle_event(e):
             Frame -= 1
 
 def exit():
-    global image
-    del image
+    global image, bgm
+    del image, bgm
 
 def pause():
     pass
