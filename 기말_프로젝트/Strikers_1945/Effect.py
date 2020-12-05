@@ -1,9 +1,6 @@
 from pico2d import *
 import gfw
 
-import main_state
-import Player
-
 class Effect():
     image = [None, None, None, None, None, None, None, None, None]
 
@@ -40,9 +37,8 @@ class Effect():
             self.currFrame = 0
             self.remove()
 
-    def draw(self):
-        self.image[self.imageIndex].clip_draw(int(self.currFrame) * self.imageX, 0, self.imageX, self.imageY,
-                                              self.x, self.y, self.sizeX, self.sizeY)
-
     def remove(self):
         gfw.world.remove(self)
+
+    def draw(self):
+        self.image[self.imageIndex].clip_draw(int(self.currFrame) * self.imageX, 0, self.imageX, self.imageY, self.x, self.y, self.sizeX, self.sizeY)

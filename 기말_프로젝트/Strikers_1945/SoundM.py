@@ -3,7 +3,7 @@ from pico2d import *
 def init():
     global soundLst, bgm1, bgm2
 
-    bgm1 = load_music('Sound/stage0.mp3')
+    bgm1 = load_music('Sound/main.mp3')
     bgm1.set_volume(38)
     bgm2 = load_music('Sound/GameOver.mp3')
     bgm2.set_volume(38)

@@ -29,10 +29,8 @@ class Blue_Bullet2:
 
     def update(self):
         self.Bullet_LifeTime()
-
         self.x += gfw.delta_time * self.deltaX * 2
         self.y += gfw.delta_time * self.deltaY * 2
-
 
         self.frame += gfw.delta_time * 10
         if self.frame >= 16:
@@ -40,14 +38,14 @@ class Blue_Bullet2:
         if self.isDead is True or self.y <= 0 or self.x < -10 or self.x > 740:
             if self.number > 0:
                 self.Sound.playSound(12, 40)
-                bEf = Effect.Effect(self.x, self.y,80, 80, 100, 100, 10, 7, 0.5)
+                bEf = Effect.Effect(self.x, self.y, 80, 80, 100, 100, 10, 7, 0.5)
                 gfw.world.add(gfw.layer.Effect, bEf)
                 BB = Blue_Bullet2(self.x, self.y, self.number - 1, 0, 100)
                 gfw.world.add(gfw.layer.MonsterBullet, BB)
                 BB1 = Blue_Bullet2(self.x, self.y,  self.number - 1, 50 * math.sqrt(2), 50 * math.sqrt(2))
-                gfw.world.add(gfw.layer.MonsterBullet,BB1)
+                gfw.world.add(gfw.layer.MonsterBullet, BB1)
                 BB2 = Blue_Bullet2(self.x, self.y,  self.number-1, 100, 0)
-                gfw.world.add(gfw.layer.MonsterBullet,BB2)
+                gfw.world.add(gfw.layer.MonsterBullet, BB2)
                 BB3 = Blue_Bullet2(self.x, self.y,  self.number-1, 50 * math.sqrt(2), -50 * math.sqrt(2))
                 gfw.world.add(gfw.layer.MonsterBullet, BB3)
                 BB4 = Blue_Bullet2(self.x, self.y, self.number-1, 0, -100)
@@ -60,8 +58,8 @@ class Blue_Bullet2:
                 gfw.world.add(gfw.layer.MonsterBullet, BB7)
             self.remove()
 
-    def draw(self):
-        self.image.clip_draw(450 * int(self.frame), 0, 450, 450, self.x, self.y, 20, 20)
-
     def remove(self):
         gfw.world.remove(self)
+
+    def draw(self):
+        self.image.clip_draw(450 * int(self.frame), 0, 450, 450, self.x, self.y, 20, 20)

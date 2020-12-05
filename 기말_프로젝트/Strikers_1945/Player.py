@@ -60,7 +60,7 @@ class Player():
 
     def Make_Laser(self):
         if gfw.world.count_at(gfw.layer.Laser) > 0:
-            self.laserTime += gfw.delta_time
+            self.laserTime += gfw.delta_time * 2
         if win32api.GetAsyncKeyState(0x41) & 0x1001:
             if gfw.world.count_at(gfw.layer.Laser) == 0 and self.Gage > 20:
                 LayL = Bullet.Player_Laser(25)

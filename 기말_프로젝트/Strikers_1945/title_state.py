@@ -2,7 +2,7 @@ import gfw
 from pico2d import *
 import main_state
 
-Frame=0
+Frame = 0
 
 def enter():
     global image
@@ -18,7 +18,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.clip_draw(Frame*800, 0, 800, 900, 360, 480, 720, 960)
+    image.clip_draw(Frame * 800, 0, 800, 900, 360, 480, 720, 960)
     update_canvas()
 
 def handle_event(e):
@@ -33,7 +33,7 @@ def handle_event(e):
         elif(e.type, e.key) == (SDL_KEYDOWN, SDLK_RIGHT):
             Frame += 1
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_LEFT):
-            Frame -=1
+            Frame -= 1
 
 def exit():
     global image

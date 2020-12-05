@@ -1,6 +1,5 @@
 from pico2d import *
 import gfw
-import Effect
 
 class Hyperion_Bullet():
     image = None
@@ -14,15 +13,15 @@ class Hyperion_Bullet():
 
     def update(self):
         if self.dir == 0:
-            self.y += gfw.delta_time*720
+            self.y += gfw.delta_time * 720
 
         elif self.dir == 1:
-           self.x -= gfw.delta_time*720
-           self.y += gfw.delta_time*720
+            self.x -= gfw.delta_time * 720
+            self.y += gfw.delta_time * 720
 
         elif self.dir == 2:
-           self.x += gfw.delta_time*720
-           self.y += gfw.delta_time*720
+            self.x += gfw.delta_time * 720
+            self.y += gfw.delta_time * 720
 
         if self.x < 0 or self.x > 720 or self.y > 960:
             self.remove()

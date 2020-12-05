@@ -58,7 +58,6 @@ class Item_Bomb():
     def remove(self):
         gfw.world.remove(self)
 
-
 class Item_Power():
     image = None
 
@@ -67,8 +66,8 @@ class Item_Power():
         self.frame = 0
         self.state1 = 'L'
         self.state2 = 'T'
-
         self.Sound = SoundM
+
         if Item_Bomb.image == None:
             Item_Bomb.image = load_image('res/Item_Power.png')
 

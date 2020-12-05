@@ -14,7 +14,7 @@ class BluePlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 50
+        self.hp = 20
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.FstX, self.FstY = x, y
@@ -36,7 +36,7 @@ class BluePlane:
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, Eft3)
-            self.Sound.playSound(2, 30)
+            self.Sound.playSound(1, 30)
             self.remove()
 
         if self.initialize is False and self.t > 0.5:
@@ -63,7 +63,7 @@ class RedPlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 50
+        self.hp = 10
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.isDead = False
@@ -86,7 +86,7 @@ class RedPlane:
             gfw.world.add(gfw.layer.Effect, Eft4)
             RItem = Item.Item_Power(self.x, self.y)
             gfw.world.add(gfw.layer.Item, RItem)
-            self.Sound.playSound(2, 30)
+            self.Sound.playSound(1, 30)
             self.remove()
 
         if self.initialize is False and self.t > 0.5:
@@ -115,7 +115,7 @@ class WhitePlane:
     deltaY = 0
 
     def __init__(self, x, y):
-        self.hp = 50
+        self.hp = 20
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.isDead = False
@@ -137,7 +137,7 @@ class WhitePlane:
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, Eft5)
-            self.Sound.playSound(2, 30)
+            self.Sound.playSound(1, 30)
             self.remove()
 
         if self.t > 1:
@@ -157,7 +157,7 @@ class BigPlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 15000
+        self.hp = 10000
         self.x, self.y = x, y
         self.radianX, self.pivotY = 250, 20
         self.dist = 0
@@ -222,7 +222,7 @@ class MidPlane:
     image = None
 
     def __init__(self, x, y, dir):
-        self.hp = 2500
+        self.hp = 1500
         self.x, self.y = x, y
         self.dir = dir
         self.frame = 0

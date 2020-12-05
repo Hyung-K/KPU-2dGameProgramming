@@ -13,7 +13,7 @@ class BigPosin:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 5000
+        self.hp = 3000
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0
@@ -66,7 +66,7 @@ class MidPosin:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 3500
+        self.hp = 2000
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0
@@ -138,7 +138,7 @@ class SmlPosin:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 2500
+        self.hp = 1000
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0

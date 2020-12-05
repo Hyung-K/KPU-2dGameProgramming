@@ -35,13 +35,13 @@ class Blue_Bullet:
 
     def update(self):
         self.Bullet_LifeTime()
-
         self.x -= self.deltaX * gfw.delta_time * self.randomSpeed_Delta
         self.y -= self.deltaY * gfw.delta_time * self.randomSpeed_Delta
         self.frame += gfw.delta_time * 15
 
         if self.frame >= 15:
             self.frame = 0
+
         if self.isDead is True:
             Bf1 = Effect.Effect(self.x, self.y, 80, 80, 100, 100, 10, 7, 0.5)
             gfw.world.add(gfw.layer.Effect, Bf1)
@@ -64,9 +64,8 @@ class Blue_Bullet:
             gfw.world.add(gfw.layer.MonsterBullet, BBB7)
             self.remove()
 
-    def draw(self):
-        self.image.clip_draw(450 * int(self.frame), 0, 450, 450, self.x, self.y, 50, 50)
-
     def remove(self):
         gfw.world.remove(self)
 
+    def draw(self):
+        self.image.clip_draw(450 * int(self.frame), 0, 450, 450, self.x, self.y, 50, 50)
