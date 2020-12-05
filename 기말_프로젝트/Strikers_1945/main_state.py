@@ -44,7 +44,7 @@ def enter():
     gfw.world.add(gfw.layer.UI, life)
 
     bg = VertScrollBackground('Map_2.png')
-    bg.speed = 50
+    bg.speed = 40
     gfw.world.add(gfw.layer.bg, bg)
     Highscore.load()
 

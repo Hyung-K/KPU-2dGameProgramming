@@ -36,7 +36,7 @@ def add(score):
 
     for i in range(len(scores)):
         e = scores[i]
-        if e.scores < entry.score:
+        if e.score < entry.score:
             scores.insert(i, entry)
             insrtd = True
             last_rank = i + 1
