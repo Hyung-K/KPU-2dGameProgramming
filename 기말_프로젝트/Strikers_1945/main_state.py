@@ -44,7 +44,7 @@ def enter():
     gfw.world.add(gfw.layer.UI, life)
 
     bg = VertScrollBackground('Map_2.png')
-    bg.speed = 40
+    bg.speed = 50
     gfw.world.add(gfw.layer.bg, bg)
     Highscore.load()
 
@@ -67,7 +67,7 @@ def MonsterBullet_Collision():
                 if Monster.x + Monster.radianX > PlayerBullet.x > Monster.x - Monster.radianX and Monster.y + Monster.pivotY > PlayerBullet.y > Monster.y - Monster.pivotY:
                     PlayerBullet.isDead = True
                     Monster.hp -= 0.5 + player.power * 0.75
-                    player.Gage += 0.1
+                    player.Gage += 1 / (player.power * 10 + 10)
                     score += 1
                     PlayerBullet.isDead = True
                     Pp = Effect.Effect(PlayerBullet.x + random.randint(-15, 15),

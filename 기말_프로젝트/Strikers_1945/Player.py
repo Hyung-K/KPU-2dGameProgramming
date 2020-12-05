@@ -24,6 +24,7 @@ class Player():
         self.isShield = False
         self.shieldTime = 0
         self.SMode = False
+        self.Sound = SoundM
 
     def Player_LifeSystem(self):
         if win32api.GetAsyncKeyState(0x44) & 0x1001:
@@ -63,7 +64,7 @@ class Player():
             self.laserTime += gfw.delta_time * 2
         if win32api.GetAsyncKeyState(0x41) & 0x1001:
             if gfw.world.count_at(gfw.layer.Laser) == 0 and self.Gage > 20:
-                LayL = Bullet.Player_Laser(25)
+                LayL = Bullet.Player_Laser(13)
                 gfw.world.add(gfw.layer.Laser, LayL)
                 LayR = Bullet.Player_Laser(-25)
                 gfw.world.add(gfw.layer.Laser, LayR)
@@ -79,9 +80,9 @@ class Player():
         self.Make_Hyperion()
         self.fire()
         self.interval += (20 * gfw.delta_time)
-        self.x = clamp(40, self.x, 700)
+        self.x = clamp(40, self.x, 720)
         self.Gage = clamp(0, self.Gage, 100)
-        self.y = clamp(40, self.y, 900)
+        self.y = clamp(40, self.y, 960)
         if (win32api.GetAsyncKeyState(0x25) & 0x8000 or
                 win32api.GetAsyncKeyState(0x26) & 0x8000 or
                 win32api.GetAsyncKeyState(0x27) & 0x8000 or
