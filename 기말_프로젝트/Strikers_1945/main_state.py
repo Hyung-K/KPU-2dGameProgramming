@@ -15,6 +15,7 @@ import game_over_state
 
 canvas_width = 720
 canvas_height = 960
+Char_Num = 0
 STATE_IN_GAME, STATE_GAME_OVER = range(2)
 
 def end_game():
@@ -23,20 +24,22 @@ def end_game():
     Sound.bgm1.stop()
     Sound.bgm2.repeat_play()
     Highscore.add(score)
+    gfw.world.clear()
     gfw.change(game_over_state)
 
 def enter():
     gfw.world.init(
-        ['bg', 'Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Laser', 'Hyperion'])
-    global player, score, Sound, state
-    global font
+        ['bg', 'Laser', 'Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Hyperion'])
+    global player, score, Sound, state, font, Char_Num, bisPlaneMake, MakeTerm, RedPlaneTerm, SmlBoss_MakeTerm, \
+        SmlBossCnt, MidBossCnt, FnlBossCnt, Time, bisMidBossDead
     state = STATE_IN_GAME
     player = Player.Player()
+    Player.Player.PType = Char_Num
+    gfw.world.add(gfw.layer.Player, player)
     font = gfw.font.load('res/Press_Start_2P.ttf', 20)
     Sound = SoundM
     Sound.init()
     Sound.bgm1.repeat_play()
-    gfw.world.add(gfw.layer.Player, player)
     life = UI.Life()
     score = 0
     gfw.world.add(gfw.layer.UI, UI.Laser_Energy(160, 30))
@@ -48,7 +51,6 @@ def enter():
     gfw.world.add(gfw.layer.bg, bg)
     Highscore.load()
 
-    global bisPlaneMake, MakeTerm, RedPlaneTerm, SmlBoss_MakeTerm, SmlBossCnt, MidBossCnt, FnlBossCnt, Time, bisMidBossDead
     bisPlaneMake = True
     MakeTerm = 0
     RedPlaneTerm = 0
@@ -64,7 +66,8 @@ def MonsterBullet_Collision():
     for Monster in gfw.world.objects_at(gfw.layer.Monster):
         for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
             for PlayerBullet in gfw.world.objects_at(gfw.layer.Bullet):
-                if Monster.x + Monster.radianX > PlayerBullet.x > Monster.x - Monster.radianX and Monster.y + Monster.pivotY > PlayerBullet.y > Monster.y - Monster.pivotY:
+                if Monster.x + Monster.radianX > PlayerBullet.x > Monster.x - Monster.radianX and \
+                        Monster.y + Monster.pivotY > PlayerBullet.y > Monster.y - Monster.pivotY:
                     PlayerBullet.isDead = True
                     Monster.hp -= 0.5 + player.power * 0.75
                     player.Gage += 1 / (player.power * 10 + 10)
@@ -74,7 +77,6 @@ def MonsterBullet_Collision():
                                        PlayerBullet.y + random.randint(-15, 15),
                                        30, 27, 30, 27, 12, 0)
                     gfw.world.add(gfw.layer.Effect, Pp)
-
 
 def PlayerBullet_Collision():
     global player, Sound, state
@@ -86,6 +88,7 @@ def PlayerBullet_Collision():
                 Sound.playSound(14, 40)
                 if player.SMode is False:
                     player.isShield = True
+                    player.life -= 1
 
                     Cp = Effect.Effect(player.x + random.randint(-20, 20),
                                        player.y + random.randint(-20, 20),
@@ -96,8 +99,8 @@ def PlayerBullet_Collision():
                         return True
 
 def MTime():
-    global MakeTerm, RedPlaneTerm, bisPlaneMake, SmlBoss_MakeTerm, SmlBossCnt, MidBossCnt, FnlBossCnt, bisMidBossDead
-    global Time, boss, score, Sound
+    global MakeTerm, RedPlaneTerm, bisPlaneMake, SmlBoss_MakeTerm, SmlBossCnt, MidBossCnt, FnlBossCnt, bisMidBossDead,\
+        Time, boss, score, Sound
 
     MakeTerm += gfw.delta_time * 0.7
     RedPlaneTerm += gfw.delta_time * 0.3

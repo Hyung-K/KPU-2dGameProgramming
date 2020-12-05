@@ -1,4 +1,3 @@
-from pico2d import *
 from gobj import *
 
 import gfw
@@ -8,14 +7,20 @@ import Hyperion
 import SoundM
 
 class Player():
+    PType = 0
+
     def __init__(self):
         self.x, self.y = 0, 90
         self.image = load_image('res/Player_T.png')
+        self.image2 = load_image('res/Player_T2.png')
+        self.image3 = load_image('res/Player_T3.png')
+        self.image4 = load_image('res/Player_T4.png')
+        self.image5 = load_image('res/Player_T5.png')
         self.frame = 3  # speed
         self.time = 0
         self.interval = 0
         self.playerState = 0
-        self.life = 5
+        self.life = 3
         self.preLife = self.life
         self.Gage = 0
         self.laserTime = 0
@@ -110,4 +115,13 @@ class Player():
             self.frame = 6
 
     def draw(self):
-        self.image.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)
+        if Player.PType == 1:
+            self.image5.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)
+        elif Player.PType == 2:
+            self.image3.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)
+        elif Player.PType == 3:
+            self.image4.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)
+        elif Player.PType == 4:
+            self.image.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)
+        elif Player.PType == 5:
+            self.image2.clip_draw(3 * 33, 0, 33, 33, self.x, self.y, 80, 80)

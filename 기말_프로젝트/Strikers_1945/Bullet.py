@@ -1,4 +1,3 @@
-from pico2d import *
 from gobj import *
 import gfw
 
@@ -78,4 +77,4 @@ class Player_Laser():
         gfw.world.remove(self)
 
     def draw(self):
-        self.image.clip_draw((self.frame // 10) * 60, 0, 80, 100, self.x, self.y + 480, 10, 960)
+        self.image.clip_draw((self.frame // 10) * 60, -20, 80, 100, self.x, self.y + 480, 10, 960)

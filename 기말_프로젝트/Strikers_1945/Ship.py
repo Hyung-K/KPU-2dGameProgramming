@@ -4,7 +4,6 @@ import random
 
 import Effect
 import Posin
-import UI
 import SoundM
 
 checkDead = False

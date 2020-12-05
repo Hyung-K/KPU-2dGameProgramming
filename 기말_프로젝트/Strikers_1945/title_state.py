@@ -14,9 +14,8 @@ def enter():
 def update():
     global Frame
     if Frame < 0:
-        Frame = 5
-
-    elif Frame > 5:
+        Frame = 4
+    elif Frame > 4:
         Frame = 0
 
 def draw():
@@ -34,6 +33,7 @@ def handle_event(e):
             gfw.quit()
         elif(e.type, e.key) == (SDL_KEYDOWN, SDLK_SPACE):
             bgm.stop()
+            main_state.Char_Num = Frame + 1
             gfw.push(main_state)
         elif(e.type, e.key) == (SDL_KEYDOWN, SDLK_RIGHT):
             Frame += 1

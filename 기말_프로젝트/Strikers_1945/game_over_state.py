@@ -1,7 +1,6 @@
 from pico2d import *
 import gfw
 
-import title_state
 import Highscore
 
 def enter():
@@ -34,7 +33,7 @@ def handle_event(e):
 
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_r):
             bgm.stop()
-            gfw.push(title_state)
+            gfw.pop()
 
 def exit():
     global bgm
