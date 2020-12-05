@@ -1,12 +1,11 @@
 from pico2d import *
-
-import gfw
-import Player
-import BlueBullet
-import Effect
 import random
 import math
+import gfw
 
+import BlueBullet
+import Effect
+import SoundM
 
 class Blue_Bullet:
     image = None
@@ -19,12 +18,13 @@ class Blue_Bullet:
         self.lifeTime = random.randint(100, 300) / 100
         self.deathTime = 0
         self.index = 0
+        self.Sound = SoundM
         self.number = 0
         self.randomSpeed_Delta = random.randint(30, 50) / 100
 
         if Blue_Bullet.image is None:
             Blue_Bullet.image = load_image('res/Blue_Bullet2.png')
-        for player in gfw.world.objects_at(gfw.layer.CPlayer):
+        for player in gfw.world.objects_at(gfw.layer.Player):
          self.deltaX = self.x - player.x
          self.deltaY = self.y - player.y
 
@@ -44,23 +44,24 @@ class Blue_Bullet:
             self.frame = 0
         if self.isDead is True:
             Bf1 = Effect.Effect(self.x, self.y, 80, 80, 100, 100, 10, 7, 0.5)
-            gfw.world.add(gfw.layer.CEffect, Bf1)
+            gfw.world.add(gfw.layer.Effect, Bf1)
+            self.Sound.playSound(12, 40)
             BBB = BlueBullet.Blue_Bullet2(self.x, self.y, self.number - 1, 0, 100)
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB)
             BBB1 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number - 1, 50 * math.sqrt(2), 50 * math.sqrt(2))
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB1)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB1)
             BBB2 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number-1, 100, 0)
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB2)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB2)
             BBB3 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number-1, 50 * math.sqrt(2), -50 * math.sqrt(2))
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB3)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB3)
             BBB4 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number-1, 0, -100)
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB4)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB4)
             BBB5 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number-1, -50 * math.sqrt(2), -50 * math.sqrt(2))
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB5)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB5)
             BBB6 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number-1, -100, 0)
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB6)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB6)
             BBB7 = BlueBullet.Blue_Bullet2(self.x, self.y, self.number-1, -50 * math.sqrt(2), 50 * math.sqrt(2))
-            gfw.world.add(gfw.layer.CMonsterBullet, BBB7)
+            gfw.world.add(gfw.layer.MonsterBullet, BBB7)
             self.remove()
 
     def draw(self):

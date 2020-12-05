@@ -5,6 +5,7 @@ import random
 import Effect
 import Posin
 import UI
+import SoundM
 
 class BossShip:
     image1 = None
@@ -19,6 +20,7 @@ class BossShip:
         self.effectTerm = 0
         self.deathSizeX = 0
         self.deathSizeY = 0
+        self.Sound = SoundM
         self.bisOpen = False
         self.LInit = False
         self.MoveSpeed = 100
@@ -67,6 +69,7 @@ class BossShip:
             self.effectTerm += gfw.delta_time
 
             if self.effectTerm > 0.1 and self.deathSizeX < 600:
+                self.Sound.playSound(random.randint(3, 7), 50)
                 self.effectTerm = 0
                 DEf = Effect.Effect(self.x + random.randint(int(-700 + self.deathSizeX), int(700 - self.deathSizeX)),
                                     self.y + random.randint(int(-100 + self.deathSizeY), int(100 - self.deathSizeY)),

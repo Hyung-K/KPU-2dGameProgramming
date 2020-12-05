@@ -4,7 +4,7 @@ import gfw
 import Effect
 import random
 import math
-
+import SoundM
 
 class Blue_Bullet2:
     image = None
@@ -16,6 +16,7 @@ class Blue_Bullet2:
         self.radius = 10
         self.isDead = False
         self.frame = 0
+        self.Sound = SoundM
         self.lifeTime = random.randint(100, 300) / 100
         self.deathTime = 0
         self.index = 0
@@ -35,9 +36,10 @@ class Blue_Bullet2:
 
         self.frame += gfw.delta_time * 10
         if self.frame >= 16:
-            self.frame =0
+            self.frame = 0
         if self.isDead is True or self.y <= 0 or self.x < -10 or self.x > 740:
             if self.number > 0:
+                self.Sound.playSound(12, 40)
                 bEf = Effect.Effect(self.x, self.y,80, 80, 100, 100, 10, 7, 0.5)
                 gfw.world.add(gfw.layer.Effect, bEf)
                 BB = Blue_Bullet2(self.x, self.y, self.number - 1, 0, 100)

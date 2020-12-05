@@ -2,11 +2,11 @@ from pico2d import *
 import gfw
 import random
 
-import main_state
 import Item
 import Effect
 import MonsterBullet
 import UI
+import SoundM
 
 checkDead = False
 
@@ -14,7 +14,7 @@ class BluePlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 1
+        self.hp = 50
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.FstX, self.FstY = x, y
@@ -22,6 +22,7 @@ class BluePlane:
         self.TrdX, self.TrdY = x + 400, y + 200
         self.frame = 0
         self.t = 0
+        self.Sound = SoundM
         self.isDead = False
         self.initialize = False
 
@@ -35,6 +36,7 @@ class BluePlane:
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, Eft3)
+            self.Sound.playSound(2, 30)
             self.remove()
 
         if self.initialize is False and self.t > 0.5:
@@ -44,7 +46,7 @@ class BluePlane:
 
         if self.t > 1:
             self.remove()
-    
+
         self.frame = (self.frame + gfw.delta_time * 11) % 11
         self.t += gfw.delta_time * 0.3
         self.x = (1 - self.t) ** 2 * self.FstX + 2 * self.t * (1 - self.t) * self.SndX + self.t ** 2 * self.TrdX
@@ -56,11 +58,12 @@ class BluePlane:
     def remove(self):
         gfw.world.remove(self)
 
+
 class RedPlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 1
+        self.hp = 50
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.isDead = False
@@ -69,6 +72,7 @@ class RedPlane:
         self.TrdX, self.TrdY = x + 400, y + 200
         self.frame = 0
         self.t = 0
+        self.Sound = SoundM
         self.initialize = False
         if RedPlane.image is None:
             RedPlane.image = load_image('res/Monster_2.png')
@@ -82,6 +86,7 @@ class RedPlane:
             gfw.world.add(gfw.layer.Effect, Eft4)
             RItem = Item.Item_Power(self.x, self.y)
             gfw.world.add(gfw.layer.Item, RItem)
+            self.Sound.playSound(2, 30)
             self.remove()
 
         if self.initialize is False and self.t > 0.5:
@@ -103,18 +108,20 @@ class RedPlane:
     def remove(self):
         gfw.world.remove(self)
 
+
 class WhitePlane:
     image = None
     deltaX = 0
     deltaY = 0
 
     def __init__(self, x, y):
-        self.hp = 1
+        self.hp = 50
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.isDead = False
         self.frame = 0
         self.t = 0
+        self.Sound = SoundM
 
         for player in gfw.world.objects_at(gfw.layer.Player):
             self.DeltaX = player.x - x
@@ -122,7 +129,7 @@ class WhitePlane:
 
         if WhitePlane.image is None:
             WhitePlane.image = load_image('res/Monster_3.png')
-        
+
     def update(self):
         if self.isDead or self.hp <= 0:
             UI.Score().Add_Score(random.randint(200, 300))
@@ -130,6 +137,7 @@ class WhitePlane:
                                  self.y + random.randint(-20, 20),
                                  128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, Eft5)
+            self.Sound.playSound(2, 30)
             self.remove()
 
         if self.t > 1:
@@ -144,11 +152,12 @@ class WhitePlane:
     def remove(self):
         gfw.world.remove(self)
 
+
 class BigPlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 5000
+        self.hp = 15000
         self.x, self.y = x, y
         self.radianX, self.pivotY = 250, 20
         self.dist = 0
@@ -156,10 +165,11 @@ class BigPlane:
         self.bigBulletTerm = 0
         self.bulletPossibleTime = 0
         self.bigBulletPossibleTime = 0
+        self.Sound = SoundM
         self.isDead = False
 
         if BigPlane.image is None:
-            BigPlane.image = load_image('res/BigAirPlan.png')
+            BigPlane.image = load_image('res/BigAirPlane.png')
 
     def update(self):
         global checkDead
@@ -172,6 +182,7 @@ class BigPlane:
             Bitem = Item.Item_Bomb(self.x, self.y)
             gfw.world.add(gfw.layer.Item, Bitem)
             checkDead = True
+            self.Sound.playSound(0, 50)
             self.remove()
 
         if self.y > 900:
@@ -206,11 +217,12 @@ class BigPlane:
     def remove(self):
         gfw.world.remove(self)
 
+
 class MidPlane:
     image = None
 
     def __init__(self, x, y, dir):
-        self.hp = 250
+        self.hp = 2500
         self.x, self.y = x, y
         self.dir = dir
         self.frame = 0
@@ -220,7 +232,7 @@ class MidPlane:
         self.bulletPossibleTime = 0
         self.isDead = False
         if MidPlane.image is None:
-            MidPlane.image = load_image('res/MidAirPlan.png')
+            MidPlane.image = load_image('res/MidAirPlane.png')
 
     def initMove(self):
         if self.dir == -1 and self.x > 540:

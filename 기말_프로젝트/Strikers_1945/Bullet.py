@@ -2,7 +2,10 @@ from pico2d import *
 from gobj import *
 import gfw
 
+import Effect
+
 name = 'Bullet'
+
 
 class Bullet():
     image = [None, None, None, None]
@@ -28,13 +31,14 @@ class Bullet():
         self.y += self.dy * gfw.delta_time
         if self.isDead == True or self.y > get_canvas_height() + 20:
             self.remove()
-        
+
     def draw(self):
         for player in gfw.world.objects_at(gfw.layer.Player):
             self.image[player.power].draw(self.x - 7, self.y + 10, 120, 120)
 
     def remove(self):
         gfw.world.remove(self)
+
 
 class Player_Laser():
     image = None
@@ -58,6 +62,8 @@ class Player_Laser():
 
         for Monster in gfw.world.objects_at(gfw.layer.Monster):
             if Monster.x - Monster.radianX < self.x < Monster.x + Monster.radianX and self.y < Monster.y:
+                Pp = Effect.Effect(Monster.x + random.randint(-15, 15), 30, 27, 30, 27, 12, 0)
+                gfw.world.add(gfw.layer.Effect, Pp)
                 Monster.hp -= gfw.delta_time * 30
         self.lifeTime += 0.1
         self.frame = (self.frame + 1) % 80
@@ -71,7 +77,7 @@ class Player_Laser():
                 self.remove()
 
     def draw(self):
-        self.image.clip_draw((self.frame//10) * 60, 0, 80, 100, self.x, self.y+480, 10, 960)
+        self.image.clip_draw((self.frame // 10) * 60, 0, 80, 100, self.x, self.y + 480, 10, 960)
 
     def remove(self):
         gfw.world.remove(self)

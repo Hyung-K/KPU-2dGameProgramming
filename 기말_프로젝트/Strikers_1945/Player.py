@@ -5,12 +5,13 @@ import gfw
 import win32api
 import Bullet
 import Hyperion
+import SoundM
 
 class Player():
     def __init__(self):
         self.x, self.y = 0, 90
         self.image = load_image('res/Player_T.png')
-        self.frame = 3    # speed
+        self.frame = 3  # speed
         self.time = 0
         self.interval = 0
         self.playerState = 0
@@ -18,9 +19,8 @@ class Player():
         self.preLife = self.life
         self.Gage = 0
         self.laserTime = 0
-        self.power = 0      # 플레이어 파워
-        self.bombNo = 2     # 필살기개수
-        self.soundDelta = 0
+        self.power = 0  # 플레이어 파워
+        self.bombNo = 2  # 필살기개수
         self.isShield = False
         self.shieldTime = 0
         self.SMode = False
@@ -57,7 +57,7 @@ class Player():
             gfw.world.add(gfw.layer.Hyperion, Lh)
             Rh = Hyperion.Hyperion(520, -100)
             gfw.world.add(gfw.layer.Hyperion, Rh)
-            
+
     def Make_Laser(self):
         if gfw.world.count_at(gfw.layer.Laser) > 0:
             self.laserTime += gfw.delta_time
@@ -67,7 +67,7 @@ class Player():
                 gfw.world.add(gfw.layer.Laser, LayL)
                 LayR = Bullet.Player_Laser(-25)
                 gfw.world.add(gfw.layer.Laser, LayR)
-                
+
             elif self.laserTime > 3 and gfw.world.count_at(gfw.layer.Laser) > 0:
                 self.laserTime = 0
                 for Laser in gfw.world.objects_at(gfw.layer.Laser):
@@ -102,7 +102,7 @@ class Player():
             self.frame -= 1
         if win32api.GetAsyncKeyState(0x27) & 0x8000 and self.time >= 48:
             self.frame += 1
-            
+
         if self.frame <= 0:
             self.frame = 0
         if self.frame >= 6:

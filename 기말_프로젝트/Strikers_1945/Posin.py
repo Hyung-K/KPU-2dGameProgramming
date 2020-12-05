@@ -7,13 +7,13 @@ import MonsterBullet
 import BossBlueBullet
 import UI
 import Effect
-
+import SoundM
 
 class BigPosin:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 1000
+        self.hp = 5000
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0
@@ -21,6 +21,7 @@ class BigPosin:
         self.radianX, self.pivotY = 50, 50
         self.bisOpen = False
         self.bulletMakeTerm = 0
+        self.Sound = SoundM
         self.randomDelta = random.randint(40, 90) / 100
 
         if BigPosin.image == None:
@@ -45,11 +46,13 @@ class BigPosin:
         self.Make_Bullet()
         if self.isDead or self.hp < 0:
             UI.Score().Add_Score(random.randint(1500, 2000))
-            PEf = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200, 9, 1)
+            PEf = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200,
+                                9, 1)
             gfw.world.add(gfw.layer.Effect, PEf)
+            self.Sound.playSound(random.randint(3, 7), 40)
 
             for boss in gfw.world.objects_at(gfw.layer.Boss):
-                boss.DeathCnt += 1
+                boss.deathCnt += 1
                 self.remove()
 
     def draw(self):
@@ -58,11 +61,12 @@ class BigPosin:
     def remove(self):
         gfw.world.remove(self)
 
+
 class MidPosin:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 350
+        self.hp = 3500
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0
@@ -72,11 +76,12 @@ class MidPosin:
         self.bulletTime = 3
         self.bulletPossibleTime = 0
         self.makeBulletTerm = 0
+        self.Sound = SoundM
         self.bisBulletPossible = False
 
         if MidPosin.image is None:
             MidPosin.image = load_image('res/Boat_Posin.png')
-        
+
     def makeBullet(self):
         self.time += gfw.delta_time
         if self.time > self.bulletTime and self.bisBulletPossible is False:
@@ -113,30 +118,34 @@ class MidPosin:
         self.dir_Calculate()
         if self.isDead or self.hp < 0:
             UI.Score().Add_Score(random.randint(1500, 2000))
-            PEf2 = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200, 9, 1)
-            gfw.world.add(gfw.layer.CEffect, PEf2)
-            
+            PEf2 = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20), 128, 128, 200, 200,
+                                 9, 1)
+            gfw.world.add(gfw.layer.Effect, PEf2)
+            self.Sound.playSound(random.randint(3, 7), 40)
+
             for boss in gfw.world.objects_at(gfw.layer.Boss):
-                boss.DeathCnt += 1
+                boss.deathCnt += 1
             self.remove()
 
     def draw(self):
-        self.image.clip_draw(int(self.Frame) * 30, 0, 30, 30, self.x, self.y, 50, 50)
+        self.image.clip_draw(int(self.frame) * 30, 0, 30, 30, self.x, self.y, 50, 50)
 
     def remove(self):
         gfw.world.remove(self)
+
 
 class SmlPosin:
     image = None
 
     def __init__(self, x, y):
+        self.hp = 2500
         self.x, self.y = x, y
         self.frame = 0
         self.dist = 0
         self.isDead = False
-        self.hp = 250
         self.radianX, self.pivotY = 30, 20
         self.bulletTime = 0
+        self.Sound = SoundM
         self.makeBulletTerm = random.randint(20, 40) / 10
         if SmlPosin.image is None:
             SmlPosin.image = load_image('res/Boat_Posin2.png')
@@ -164,14 +173,15 @@ class SmlPosin:
         self.makeBullet()
         self.dir_Calculate()
 
-        if self.isDead or self.hp< 0:
+        if self.isDead or self.hp < 0:
             UI.Score().Add_Score(random.randint(500, 1000))
             ScE = Effect.Effect(self.x + random.randint(-20, 20), self.y + random.randint(-20, 20),
                                 128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.MonsterBullet, ScE)
+            self.Sound.playSound(random.randint(3, 7), 40)
 
             for boss in gfw.world.objects_at(gfw.layer.Boss):
-                boss.DeathCnt += 1
+                boss.deathCnt += 1
             self.remove()
 
     def draw(self):

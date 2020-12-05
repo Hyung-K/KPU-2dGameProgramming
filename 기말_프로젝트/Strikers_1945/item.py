@@ -3,17 +3,19 @@ import gfw
 import math
 
 import Effect
-
-name = 'item'
+import SoundM
 
 class Item_Bomb():
     image = None
+    Sound = None
 
     def __init__(self, x, y):
         self.x, self.y = x, y
         self.frame = 0
         self.state1 = 'L'
         self.state2 = 'T'
+        self.Sound = SoundM
+
         if Item_Bomb.image == None:
             Item_Bomb.image = load_image('res/Item_Bomb.png')
 
@@ -42,6 +44,8 @@ class Item_Bomb():
             if distance < 30:
                 Pp = Effect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 3)
                 gfw.world.add(gfw.layer.Effect, Pp)
+                self.Sound.playSound(10, 30)
+
                 if Player.bombNo < 5:
                     Player.bombNo += 1
                 self.remove()
@@ -54,6 +58,7 @@ class Item_Bomb():
     def remove(self):
         gfw.world.remove(self)
 
+
 class Item_Power():
     image = None
 
@@ -62,13 +67,14 @@ class Item_Power():
         self.frame = 0
         self.state1 = 'L'
         self.state2 = 'T'
-        
+
+        self.Sound = SoundM
         if Item_Bomb.image == None:
             Item_Bomb.image = load_image('res/Item_Power.png')
 
         self.PlayerX = 0  # player.x
         self.PlayerY = 0  # player.y
-        self.PlayerPower = 0    # player.Power
+        self.PlayerPower = 0  # player.Power
 
     def Item_Move(self):
         if self.state1 == 'L':
@@ -99,6 +105,7 @@ class Item_Power():
         distance = math.sqrt((self.PlayerX - self.x) ** 2 + (self.PlayerY - self.y) ** 2)
 
         if distance < 30:
+            self.Sound.playSound(10, 30)
             if self.PlayerPower < 3:
                 for player in gfw.world.objects_at(gfw.layer.Player):
                     player.power += 1

@@ -3,18 +3,24 @@ from bg import VertScrollBackground
 import gfw
 import random
 
-import title_state
 import Player
 import Monster
 import Monster2
 import UI
 import Effect
 import Ship
+import SoundM
+
+Sound = None
 
 def enter():
-    gfw.world.init(['bg', 'Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Laser', 'Hyperion'])
-    global player, score
+    gfw.world.init(
+        ['bg', 'Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Laser', 'Hyperion'])
+    global player, score, Sound
     player = Player.Player()
+    Sound = SoundM
+    Sound.init()
+    Sound.bgm1.repeat_play()
     gfw.world.add(gfw.layer.Player, player)
     score = UI.Score()
     life = UI.Life()
@@ -38,8 +44,9 @@ def enter():
     Time = 0
     bisMidBossDead = False
 
+
 def MonsterBullet_Collision():
-    global player, score
+    global player, score, Sound
     for Monster in gfw.world.objects_at(gfw.layer.Monster):
         for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
             for PlayerBullet in gfw.world.objects_at(gfw.layer.Bullet):
@@ -54,28 +61,31 @@ def MonsterBullet_Collision():
                                        30, 27, 30, 27, 12, 0)
                     gfw.world.add(gfw.layer.Effect, Pp)
 
+
 def PlayerBullet_Collision():
-    global player
+    global player, Sound
     for Monster in gfw.world.objects_at(gfw.layer.Monster):
         for MonsterBullet in gfw.world.objects_at(gfw.layer.MonsterBullet):
             dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
             if dist <= MonsterBullet.radius and player.isShield is False:
                 MonsterBullet.isDead = True
+                Sound.playSound(14, 40)
                 if player.SMode is False:
                     player.isShield = True
                     player.life -= 1
-                
+
                     Cp = Effect.Effect(player.x + random.randint(-20, 20),
                                        player.y + random.randint(-20, 20),
                                        128, 128, 250, 250, 64, 5, 0.3)
                     gfw.world.add(gfw.layer.Effect, Cp)
 
+
 def MTime():
     global MakeTerm, RedPlaneTerm, bisPlaneMake, SmlBoss_MakeTerm, SmlBossCnt, MidBossCnt, FnlBossCnt, bisMidBossDead
     global Time
 
-    MakeTerm += gfw.delta_time * 0.5
-    RedPlaneTerm += gfw.delta_time * 0.5
+    MakeTerm += gfw.delta_time * 0.7
+    RedPlaneTerm += gfw.delta_time * 0.3
     SmlBoss_MakeTerm += gfw.delta_time * 1
     Time += gfw.delta_time * 1
 
@@ -94,7 +104,7 @@ def MTime():
         RedPlaneTerm = 0
         Redp = Monster2.RedPlane(random.randint(0, 300), 960)
         gfw.world.add(gfw.layer.Monster, Redp)
-            
+
     if SmlBoss_MakeTerm > 10 and SmlBossCnt > 0:
         SmlBoss_MakeTerm = 0
         SmlBossCnt -= 1
@@ -102,7 +112,7 @@ def MTime():
         Sp2 = Monster2.MidPlane(-580, 1300, 1)
         gfw.world.add(gfw.layer.Monster, Sp1)
         gfw.world.add(gfw.layer.Monster, Sp2)
-    
+
     if Time > 40 and MidBossCnt > 0:
         MidBossCnt -= 1
         BAP = Monster2.BigPlane(360, 1160)
@@ -114,26 +124,31 @@ def MTime():
         gfw.world.add(gfw.layer.Boss, boss)
         bisPlaneMake = False
 
+
 def update():
     MonsterBullet_Collision()
     PlayerBullet_Collision()
     gfw.world.update()
     MTime()
 
+
 def draw():
     gfw.world.draw()
-    
+
+
 def handle_event(e):
     global player
     if e.type == SDL_QUIT:
         gfw.quit()
-        
+
     elif e.type == SDL_KEYDOWN:
         if e.key == SDLK_ESCAPE:
             gfw.pop()
 
+
 def exit():
     pass
+
 
 if __name__ == '__main__':
     gfw.run_main()
