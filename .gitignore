@@ -1,5 +1,6 @@
 ## 모든 파일 ignore
-
+.idea/
+xml
 __pycache__/
 *.py[cod]
 *$py.class

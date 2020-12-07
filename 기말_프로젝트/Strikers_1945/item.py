@@ -117,8 +117,8 @@ class Item_Power():
         self.frame = (self.frame + gfw.delta_time*9) % 6
 
     def draw(self):
-        self.image.clip_draw(int(self.frame) * 25, 0, 25, 18, self.x, self.y, 50, 30)
         pass
+        # self.image.clip_draw(int(self.frame) * 25, 0, 25, 18, self.x, self.y, 50, 30)
 
     def remove(self):
         gfw.world.remove(self)
