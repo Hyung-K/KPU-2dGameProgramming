@@ -20,7 +20,7 @@ class Player():
         self.time = 0
         self.interval = 0
         self.playerState = 0
-        self.life = 3
+        self.life = 5
         self.preLife = self.life
         self.Gage = 0
         self.laserTime = 0
