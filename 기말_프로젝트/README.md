@@ -15,7 +15,7 @@
 ### 1. loading_state  
  - 게임 실행시 가장 먼저 실행된다    
  - 일정시간(약 1초) 지난 후 자동으로 title_state으로 change된다.    
- ![Github logo](./res/Strikers_1945.png)   
+ ![Github logo](./res/loading_state.png)   
 ### 2. title_state  
  - 키보드 방향키 및 스페이스키를 이용해 플레이어 선택      
  - 플레이어 선택 후 main_state로 push된다.   
