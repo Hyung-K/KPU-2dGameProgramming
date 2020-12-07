@@ -16,7 +16,7 @@ class Player():
         self.image3 = load_image('res/Player_T3.png')
         self.image4 = load_image('res/Player_T4.png')
         self.image5 = load_image('res/Player_T5.png')
-        self.frame = 3  # speed
+        self.frame = 3.5  # speed
         self.time = 0
         self.interval = 0
         self.playerState = 0

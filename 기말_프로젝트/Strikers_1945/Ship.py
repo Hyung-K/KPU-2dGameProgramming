@@ -108,7 +108,7 @@ class BossShip:
         self.initMove()
         if self.isDead:
             BcEf = Effect.Effect(self.x + random.randint(-20, 20),
-                                 self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
+                                 self.y + random.randint(-20, 20), 128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.Effect, BcEf)
             self.remove()
 

@@ -10,7 +10,7 @@ class LeftPlane1():
     image = None
 
     def __init__(self, x, y):
-        self.hp = 20
+        self.hp = 15
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.frame = 0
@@ -50,7 +50,7 @@ class RightPlane1():
     image = None
 
     def __init__(self, x, y):
-        self.hp = 20
+        self.hp = 15
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.frame = 0

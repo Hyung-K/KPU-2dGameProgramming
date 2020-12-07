@@ -57,7 +57,7 @@ def draw():
     n =1
     y = 600
     for e in scores:
-        str = "{:d}{:7.1f}".format(n, e.score)
+        str = "{:d} {:6.1f}".format(n, e.score)
         color = (0, 0, 0) if n == last_rank else (0, 0, 0)
         font.draw(10, y, str, color)
         font.draw(260, y, time.asctime(time.localtime(e.time)), color)

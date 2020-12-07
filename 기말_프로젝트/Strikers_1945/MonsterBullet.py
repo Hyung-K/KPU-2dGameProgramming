@@ -2,10 +2,12 @@ from pico2d import *
 import gfw
 import random
 
+import Item
+
 class PlaneBullet:
     image = None
 
-    def __init__(self, x, y, index, speed=500):
+    def __init__(self, x, y, index, speed=450):
         self.index = index
         self.speed = speed
         self.x, self.y = x, y
@@ -31,7 +33,7 @@ class PlaneBullet:
 class PlaneBullet2:
     image = None
 
-    def __init__(self, x, y, index, deltaX, speed=500):
+    def __init__(self, x, y, index, deltaX, speed=450):
         self.speed = speed
         self.x, self.y = x, y
         self.deltaX = deltaX
@@ -61,7 +63,7 @@ class PlaneBullet2:
 class PlaneBullet3:
     image = None
 
-    def __init__(self, x, y, deltaX, index, speed=500):
+    def __init__(self, x, y, deltaX, index, speed=450):
         self.index = index
         self.speed = speed
         self.x, self.y = x, y
@@ -90,7 +92,7 @@ class PlaneBullet3:
 class Monster1_Bullet:
     image = None
 
-    def __init__(self, x, y, index, speed=500):
+    def __init__(self, x, y, index, speed=450):
         self.index = index
         self.speed = speed
         self.x, self.y = x, y

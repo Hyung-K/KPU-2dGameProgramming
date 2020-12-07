@@ -2,12 +2,13 @@ from pico2d import *
 import gfw
 import math
 
+import Monster2
 import Effect
 import SoundM
+import Player
 
 class Item_Bomb():
     image = None
-    Sound = None
 
     def __init__(self, x, y):
         self.x, self.y = x, y
@@ -42,11 +43,11 @@ class Item_Bomb():
         for Player in gfw.world.objects_at(gfw.layer.Player):
             distance = math.sqrt((Player.x - self.x) ** 2 + (Player.y - self.y) ** 2)
             if distance < 30:
-                Pp = Effect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 3)
+                Pp = Effect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 2)
                 gfw.world.add(gfw.layer.Effect, Pp)
                 self.Sound.playSound(10, 30)
 
-                if Player.bombNo < 5:
+                if Player.bombNo < 4:
                     Player.bombNo += 1
                 self.remove()
         self.Item_Move()
@@ -68,7 +69,7 @@ class Item_Power():
         self.state2 = 'T'
         self.Sound = SoundM
 
-        if Item_Bomb.image == None:
+        if Item_Power.image == None:
             Item_Bomb.image = load_image('res/Item_Power.png')
 
         self.PlayerX = 0  # player.x
@@ -108,16 +109,16 @@ class Item_Power():
             if self.PlayerPower < 3:
                 for player in gfw.world.objects_at(gfw.layer.Player):
                     player.power += 1
-                    Pp = Effect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 2)
-                    gfw.world.add(gfw.layer.Effect, Pp)
+                    pp = Effect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 2)
+                    gfw.world.add(gfw.layer.Effect, pp)
             self.remove()
 
         self.Item_Move()
-        self.frame = (self.frame + gfw.delta_time * 9) % 6
+        self.frame = (self.frame + gfw.delta_time*9) % 6
 
     def draw(self):
+        self.image.clip_draw(int(self.frame) * 25, 0, 25, 18, self.x, self.y, 50, 30)
         pass
-        # self.image.clip_draw(int(self.frame) * 25, 0, 25, 18, self.x, self.y, 50, 30)
 
     def remove(self):
         gfw.world.remove(self)

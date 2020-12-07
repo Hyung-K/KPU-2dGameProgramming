@@ -4,6 +4,7 @@ import random
 
 import Item
 import Effect
+import Bullet
 import MonsterBullet
 import SoundM
 
@@ -13,7 +14,7 @@ class BluePlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 20
+        self.hp = 10
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.FstX, self.FstY = x, y
@@ -61,7 +62,7 @@ class RedPlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 10
+        self.hp = 15
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.isDead = False
@@ -112,7 +113,7 @@ class WhitePlane:
     deltaY = 0
 
     def __init__(self, x, y):
-        self.hp = 20
+        self.hp = 10
         self.x, self.y = x, y
         self.radianX, self.pivotY = 40, 10
         self.isDead = False
@@ -153,7 +154,7 @@ class BigPlane:
     image = None
 
     def __init__(self, x, y):
-        self.hp = 10000
+        self.hp = 8000
         self.x, self.y = x, y
         self.radianX, self.pivotY = 250, 20
         self.dist = 0
@@ -217,7 +218,7 @@ class MidPlane:
     image = None
 
     def __init__(self, x, y, dir):
-        self.hp = 1500
+        self.hp = 1200
         self.x, self.y = x, y
         self.dir = dir
         self.frame = 0

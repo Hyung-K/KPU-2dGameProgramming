@@ -29,7 +29,7 @@ def end_game():
 
 def enter():
     gfw.world.init(
-        ['bg', 'Laser', 'Player', 'Boss', 'Bullet', 'Monster', 'MonsterBullet', 'UI', 'Effect', 'Item', 'Hyperion'])
+        ['bg', 'Player','Monster', 'Boss', 'Bullet', 'Laser', 'MonsterBullet', 'Hyperion',  'Item', 'Effect', 'UI'])
     global player, score, Sound, state, font, Char_Num, bisPlaneMake, MakeTerm, RedPlaneTerm, SmlBoss_MakeTerm, \
         SmlBossCnt, MidBossCnt, FnlBossCnt, Time, bisMidBossDead
     state = STATE_IN_GAME
