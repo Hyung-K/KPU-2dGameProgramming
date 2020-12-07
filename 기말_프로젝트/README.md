@@ -20,7 +20,7 @@
  - Game Start, Rank, Exit버튼 키보드 혹은 마우스로 선택가능
  - 버튼 별 Scene Push 경로    
      Game Start -> Game Scene   
-     Rank -> Ranking Scene   
+     Rank -> HighScore Scene   
      Exit -> 게임 종료   
 ### 3. Game Scene    
  - 게임을 플레이하는 Scene    
