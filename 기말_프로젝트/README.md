@@ -3,7 +3,7 @@
 ### 제목 : Strikers 1945   
  - 1945 오락게임(copy)   
  - 1인 플레이어만 가능하게 할 예정   
- ![Github logo](./res/Strikers_1945.png)   
+ ![Github logo](./res/Strikers1945.png)   
 
 ## 2. GameState (Scene) 의 수 및 각각의 이름
 - loading_state   
