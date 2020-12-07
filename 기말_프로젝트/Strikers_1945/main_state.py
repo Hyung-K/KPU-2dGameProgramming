@@ -46,7 +46,7 @@ def enter():
     gfw.world.add(gfw.layer.UI, UI.Player_Bomb())
     gfw.world.add(gfw.layer.UI, life)
 
-    bg = VertScrollBackground('Map_2.png')
+    bg = VertScrollBackground('Map_1.png')
     bg.speed = 50
     gfw.world.add(gfw.layer.bg, bg)
     Highscore.load()
