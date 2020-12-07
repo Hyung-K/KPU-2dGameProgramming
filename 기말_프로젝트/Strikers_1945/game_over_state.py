@@ -36,8 +36,8 @@ def handle_event(e):
             gfw.pop()
 
 def exit():
-    global bgm
-    del bgm
+    global bgm, game_over_image
+    del bgm, game_over_image
 
 def pause():
     pass
